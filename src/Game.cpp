@@ -1,7 +1,7 @@
-#include "TextureManager.h"
+#include "Game.h"
 
-SDL_Texture* playerTex;
-SDL_Rect srcR, destR;
+GameObject* player;
+GameObject* car;
 
 Game::Game() {
 
@@ -38,7 +38,8 @@ void Game::init(const char* title, int xPos, int yPos, int width, int height, bo
     isRunning = false;
   }
 
-  playerTex = TextureManager::LoadTexture("../assets/player.png", renderer);
+  player = new GameObject("../assets/player.png", renderer, 0, 0);
+  car = new GameObject("../assets/car.png", renderer, 150, 150);
 }
 
 void Game::handleEvents() {
@@ -55,20 +56,15 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
-  cnt++;
-
-  destR.h = 64;
-  destR.w = 64;
-  destR.x = cnt;
-
-
-  std::cout << cnt << "\n";
+  player->Update();
+  car->Update();
 }
 
 void Game::render() {
   SDL_RenderClear(renderer);
   
-  SDL_RenderCopy(renderer, playerTex, NULL, &destR);
+  player->Render();
+  car->Render();
 
   SDL_RenderPresent(renderer);
 }
