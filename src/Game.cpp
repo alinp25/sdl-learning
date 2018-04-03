@@ -3,6 +3,10 @@
 GameObject* player;
 GameObject* car;
 
+Map* map;
+
+SDL_Renderer* Game::renderer = nullptr;
+
 Game::Game() {
 
 }
@@ -12,7 +16,7 @@ Game::~Game() {
 }
 
 
-void Game::init(const char* title, int xPos, int yPos, int width, int height, bool fullscreen) {
+void Game::init(const char* title, int width, int height, bool fullscreen) {
   int flags = 0;
 
   if (fullscreen) {
@@ -22,7 +26,7 @@ void Game::init(const char* title, int xPos, int yPos, int width, int height, bo
   if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
     std::cout << "Subsystems Initialized!...\n";
 
-    window = SDL_CreateWindow(title, xPos, yPos, width, height, flags);
+    window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
     if (window) {
       std::cout << "Window created!\n";
     }
@@ -38,8 +42,9 @@ void Game::init(const char* title, int xPos, int yPos, int width, int height, bo
     isRunning = false;
   }
 
-  player = new GameObject("../assets/player.png", renderer, 0, 0);
-  car = new GameObject("../assets/car.png", renderer, 150, 150);
+  player = new GameObject("../assets/player.png", 0, 0);
+  car = new GameObject("../assets/car.png", 150, 150);
+  map = new Map();
 }
 
 void Game::handleEvents() {
@@ -63,6 +68,7 @@ void Game::update() {
 void Game::render() {
   SDL_RenderClear(renderer);
   
+  map->DrawMap();
   player->Render();
   car->Render();
 
