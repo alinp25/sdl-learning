@@ -21,7 +21,6 @@ void GameObject::Update() {
   destRect.y = yPos;
   destRect.w = srcRect.w * 2;
   destRect.h = srcRect.h * 2;
-  SDL_Delay(2000);
 }
 
 void GameObject::Render() {
